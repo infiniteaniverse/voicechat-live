@@ -410,9 +410,8 @@ def build() -> str:
     <div style="height:6mm"></div>
     <h3>Team members</h3>
     {table(["Full name", "Registration number"], [
-        [PH("Member 1 full name"), PH("Registration number")],
-        [PH("Member 2 full name, delete row if none"), PH("Registration number")],
-        [PH("Member 3 full name, delete row if none"), PH("Registration number")],
+        ["Shubham " + PH("surname"), PH("Registration number")],
+        ["Anuvansh " + PH("surname"), PH("Registration number")],
     ], "")}
   </div>
   <div class="small">Submitted as BCSE306L_TeamName_FinalReport.pdf through VTOP. Highlighted fields are to be completed by the team before upload.</div>
@@ -587,9 +586,9 @@ procedure RETRIEVE(q):
 <h2>6. Team contributions and references</h2>
 <h3>6.1 Contributions</h3>
 {table(["Member", "Contribution"], [
-    [PH("Member 1"), "Project owner. Defined requirements and the part-by-part plan; directed and reviewed each component (audio front end, LLM agent and memory, TTS, guardrails, fallback and latency monitor, pipeline integration, web demo); ran live voice tests and reported the defects that drove fixes (name not remembered, echo loop, stalling phrases); decided the latency/safety trade-offs; ran the experiments in section 4."],
-    [PH("Member 2, or delete row"), PH("Describe contribution")],
-    [PH("Member 3, or delete row"), PH("Describe contribution")],
+    ["Shubham", "Set up the project environment (the uv project, CUDA builds of PyTorch and faster-whisper, the Ollama model and <code>config.yaml</code>) and built the input and language side of the assistant: the audio front end (Silero voice activity detection with the 700 ms turn-end rule, faster-whisper speech-to-text, the microphone and audio manager), the LangGraph agent (state, prompts, the retrieve &rarr; generate &rarr; extract graph with token streaming from Qwen2.5-3B) and the rolling short-term memory. Built the long-term memory: the embedding wrapper, the FAISS and SQLite fact store, thresholded top-k retrieval, the near-duplicate rule and the recalibration of the similarity threshold from 0.6 to 0.15, together with the few-shot fact-extraction prompt and parser, the background write that survives shutdown, and the fix for dropping all but one fact per sentence. Wrote the tests and benchmarks for these parts, ran Experiments 1&ndash;3 (retrieval against the TF-IDF baseline, the duplicate threshold, the extraction prompt comparison) and wrote report sections 1, 2.1 and 2.2 and the memory and agent parts of section 3."],
+    ["Anuvansh", "Built the output, safety and real-time side and integrated the whole system: Kokoro text-to-speech with sentence chunking and the sentence-streaming player; the NeMo guardrails layer (few-shot input and output checks, the 3-token answer cap, the direct-dispatch manager and the fail-open policy); the fallback filler-phrase timer and the latency monitor; and the full pipeline (producer/consumer stream with a bounded queue, running the output check and speech synthesis together, the stalling-phrase filter and the fix that starts the fallback timer after the input check). Built the FastAPI and WebSocket web demo with its browser microphone path, resampling, the gate that stops the assistant hearing itself, and the interface with its audio visualiser, plus the live animated terminal and browser dashboard, the launchers and the desktop shortcut. Wrote the end-to-end tests, ran Experiments 4 and 5 (safety checks, latency) and the GPU-contention analysis, and wrote report sections 2.3, 2.4, 5 and the pipeline parts of section 3."],
+    ["Both", "Wrote the requirements and the Review 1 and 2 material; ran the full test suite and the live voice tests; wrote the README, the design-trade-off and latency documents and the generative-AI disclosure; prepared the live demonstration; and reviewed the final report."],
 ], "", ["22%", "78%"])}
 
 <h3>6.2 Generative-AI assistance (disclosure)</h3>
