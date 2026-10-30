@@ -1,0 +1,18 @@
+# Output rail definitions (Colang format)
+# Checks each sentence chunk before it reaches TTS — applied per chunk, not full response.
+# Implementation: Part 5
+#
+# NOTE: guardrails/manager.py's GuardrailsManager invokes the self_check_output
+# action directly via the action dispatcher, bypassing this flow entirely — see
+# input_rails.co's note and docs/tradeoffs.md for why. Kept as the canonical,
+# human-readable definition of the intended behavior.
+
+define flow check harmful response
+  $allowed = execute self_check_output
+
+  if not $allowed
+    bot refuse output
+    stop
+
+define bot refuse output
+  "I'd rather not say that. Let's move on."

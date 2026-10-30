@@ -1,0 +1,54 @@
+[project]
+name = "voicechat"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = [
+    "faiss-cpu>=1.8.0",
+    "fastapi>=0.115.0",
+    "faster-whisper>=1.0.3",
+    "httpx>=0.28.1",
+    "kokoro>=0.9.4",
+    "langchain>=0.3.0",
+    "langchain-community>=0.3.0",
+    "langgraph>=0.2.0",
+    "nemoguardrails>=0.10.0",
+    "numpy>=1.26.0",
+    "nvidia-cublas-cu12>=12.9.2.10",
+    "nvidia-cudnn-cu12>=9.24.0.43",
+    "ollama>=0.3.0",
+    "pyaudio>=0.2.14",
+    "pytest>=8.0.0",
+    "pytest-asyncio>=0.24.0",
+    "python-dotenv>=1.0.0",
+    "pyyaml>=6.0.2",
+    "scipy>=1.18.0",
+    "sentence-transformers>=3.0.0",
+    "torch==2.6.0",
+    "torchaudio==2.6.0",
+    "uvicorn[standard]>=0.32.0",
+    "websockets>=13.0",
+]
+
+[tool.uv.sources]
+torch = { index = "pytorch-cu126" }
+torchaudio = { index = "pytorch-cu126" }
+
+[[tool.uv.index]]
+name = "pytorch-cu126"
+url = "https://download.pytorch.org/whl/cu126"
+explicit = true
+
+[tool.pytest.ini_options]
+asyncio_mode = "strict"
+# Suppress deprecation/future warnings that originate inside upstream library
+# code (Kokoro/torch and NeMo Guardrails) — these are not our warnings and
+# cannot be fixed by changing our source files.
+#
+# 1. torch/nn/modules/rnn.py: Kokoro passes dropout=0.2 to a single-layer LSTM.
+# 2. torch/nn/utils/weight_norm.py: Kokoro's istftnet uses the old weight_norm API.
+# 3. nemoguardrails/rails/llm/config.py: NeMo's internal 'nim_url' field rename.
+filterwarnings = [
+    "ignore::UserWarning:torch.nn.modules.rnn",
+    "ignore::FutureWarning:torch.nn.utils.weight_norm",
+    "ignore::DeprecationWarning:nemoguardrails.*",
+]

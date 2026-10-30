@@ -1,0 +1,20 @@
+# Input rail definitions (Colang format)
+# Blocks harmful, off-topic, or jailbreak prompts before they reach the LLM.
+# Implementation: Part 5
+#
+# NOTE: guardrails/manager.py's GuardrailsManager invokes the self_check_input
+# action directly via the action dispatcher, bypassing this flow entirely, for
+# speed and to avoid pulling in the full Colang dialog-flow engine (see
+# docs/tradeoffs.md). This flow is kept as the canonical, human-readable
+# definition of the intended behavior, and works unchanged if a future part
+# switches to driving guardrails through rails.generate()/Colang directly.
+
+define flow check harmful input
+  $allowed = execute self_check_input
+
+  if not $allowed
+    bot refuse input
+    stop
+
+define bot refuse input
+  "I'm not able to help with that. Let's talk about something else."

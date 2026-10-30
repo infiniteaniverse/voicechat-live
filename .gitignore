@@ -1,0 +1,52 @@
+# Project-local notes and AI instructions (private, not for repo)
+CLAUDE.md
+notes.md
+
+# Environment
+.env
+*.env
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+.eggs/
+*.egg
+venv/
+.venv/
+env/
+
+# Model weights & data (large binary files — download via script)
+data/models/
+data/memory/
+!data/models/.gitkeep
+!data/memory/.gitkeep
+
+# IDE
+.vscode/
+.idea/
+*.iml
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Test artifacts
+.pytest_cache/
+.coverage
+htmlcov/
+*.log
+
+# Submission (generate locally)
+docs/submission/submission.pdf
+# Local runtime and generated run output (not part of the project source)
+.python312/
+data/viz_logs/
+docs/submission/report.html
+docs/submission/report_docx.html
+docs/submission/figures/*.svg.html

@@ -1,0 +1,359 @@
+[
+  {
+    "prompt": "v1_single_fact",
+    "fact_recall": 0.2777777777777778,
+    "gold_facts": 18,
+    "gold_recalled": 5,
+    "utterances_fully_captured": 3,
+    "n_positive_utterances": 12,
+    "multi_fact_utterances_fully_captured": 0,
+    "n_multi_fact_utterances": 5,
+    "spurious_facts": 0,
+    "negative_false_positives": 0,
+    "n_negative": 8,
+    "median_ms": 62,
+    "positive_rows": [
+      {
+        "utterance": "Hi, I'm Priya and I work as a pediatric nurse.",
+        "n_gold": 2,
+        "recalled": 1,
+        "output": [
+          "The user is a pediatric nurse."
+        ],
+        "spurious": 0,
+        "ms": 187
+      },
+      {
+        "utterance": "I work as a civil engineer and my name is Omar.",
+        "n_gold": 2,
+        "recalled": 1,
+        "output": [
+          "The user's name is Omar."
+        ],
+        "spurious": 0,
+        "ms": 139
+      },
+      {
+        "utterance": "My name is Sara.",
+        "n_gold": 1,
+        "recalled": 1,
+        "output": [
+          "The user's name is Sara."
+        ],
+        "spurious": 0,
+        "ms": 132
+      },
+      {
+        "utterance": "I'm allergic to shellfish and I live in Pune.",
+        "n_gold": 2,
+        "recalled": 0,
+        "output": [],
+        "spurious": 0,
+        "ms": 59
+      },
+      {
+        "utterance": "I'm vegan, I play the violin, and my cat is named Luna.",
+        "n_gold": 3,
+        "recalled": 0,
+        "output": [],
+        "spurious": 0,
+        "ms": 59
+      },
+      {
+        "utterance": "Please keep your answers brief from now on, I prefer them short.",
+        "n_gold": 1,
+        "recalled": 1,
+        "output": [
+          "The user prefers short answers."
+        ],
+        "spurious": 0,
+        "ms": 120
+      },
+      {
+        "utterance": "My brother Arjun is visiting me next month.",
+        "n_gold": 1,
+        "recalled": 0,
+        "output": [],
+        "spurious": 0,
+        "ms": 63
+      },
+      {
+        "utterance": "I'm studying electrical engineering at university.",
+        "n_gold": 1,
+        "recalled": 1,
+        "output": [
+          "The user is studying electrical engineering at university."
+        ],
+        "spurious": 0,
+        "ms": 157
+      },
+      {
+        "utterance": "I wake up at five every morning to go running.",
+        "n_gold": 1,
+        "recalled": 0,
+        "output": [],
+        "spurious": 0,
+        "ms": 62
+      },
+      {
+        "utterance": "My favorite programming language is Rust.",
+        "n_gold": 1,
+        "recalled": 0,
+        "output": [],
+        "spurious": 0,
+        "ms": 59
+      },
+      {
+        "utterance": "I just started a new job at a bank.",
+        "n_gold": 1,
+        "recalled": 0,
+        "output": [],
+        "spurious": 0,
+        "ms": 59
+      },
+      {
+        "utterance": "I'm a teacher and I love hiking.",
+        "n_gold": 2,
+        "recalled": 0,
+        "output": [],
+        "spurious": 0,
+        "ms": 62
+      }
+    ],
+    "negative_rows": [
+      {
+        "utterance": "What time is it?",
+        "output": [],
+        "false_positive": false,
+        "ms": 57
+      },
+      {
+        "utterance": "Can you recommend a good pizza place?",
+        "output": [],
+        "false_positive": false,
+        "ms": 62
+      },
+      {
+        "utterance": "Thanks, that helps.",
+        "output": [],
+        "false_positive": false,
+        "ms": 58
+      },
+      {
+        "utterance": "Tell me a joke.",
+        "output": [],
+        "false_positive": false,
+        "ms": 73
+      },
+      {
+        "utterance": "What's the capital of France?",
+        "output": [],
+        "false_positive": false,
+        "ms": 61
+      },
+      {
+        "utterance": "How do magnets work?",
+        "output": [],
+        "false_positive": false,
+        "ms": 59
+      },
+      {
+        "utterance": "Okay, sounds good.",
+        "output": [],
+        "false_positive": false,
+        "ms": 60
+      },
+      {
+        "utterance": "Can you speak a bit louder?",
+        "output": [],
+        "false_positive": false,
+        "ms": 59
+      }
+    ]
+  },
+  {
+    "prompt": "v2_multi_fact",
+    "fact_recall": 0.7777777777777778,
+    "gold_facts": 18,
+    "gold_recalled": 14,
+    "utterances_fully_captured": 8,
+    "n_positive_utterances": 12,
+    "multi_fact_utterances_fully_captured": 4,
+    "n_multi_fact_utterances": 5,
+    "spurious_facts": 0,
+    "negative_false_positives": 0,
+    "n_negative": 8,
+    "median_ms": 61,
+    "positive_rows": [
+      {
+        "utterance": "Hi, I'm Priya and I work as a pediatric nurse.",
+        "n_gold": 2,
+        "recalled": 2,
+        "output": [
+          "The user's name is Priya.",
+          "The user works as a pediatric nurse."
+        ],
+        "spurious": 0,
+        "ms": 261
+      },
+      {
+        "utterance": "I work as a civil engineer and my name is Omar.",
+        "n_gold": 2,
+        "recalled": 2,
+        "output": [
+          "The user works as a civil engineer.",
+          "The user's name is Omar."
+        ],
+        "spurious": 0,
+        "ms": 228
+      },
+      {
+        "utterance": "My name is Sara.",
+        "n_gold": 1,
+        "recalled": 1,
+        "output": [
+          "The user's name is Sara."
+        ],
+        "spurious": 0,
+        "ms": 132
+      },
+      {
+        "utterance": "I'm allergic to shellfish and I live in Pune.",
+        "n_gold": 2,
+        "recalled": 2,
+        "output": [
+          "The user is allergic to shellfish.",
+          "The user lives in Pune."
+        ],
+        "spurious": 0,
+        "ms": 216
+      },
+      {
+        "utterance": "I'm vegan, I play the violin, and my cat is named Luna.",
+        "n_gold": 3,
+        "recalled": 3,
+        "output": [
+          "The user is vegan.",
+          "The user plays the violin.",
+          "The user's cat is named Luna."
+        ],
+        "spurious": 0,
+        "ms": 272
+      },
+      {
+        "utterance": "Please keep your answers brief from now on, I prefer them short.",
+        "n_gold": 1,
+        "recalled": 1,
+        "output": [
+          "The user prefers short answers."
+        ],
+        "spurious": 0,
+        "ms": 116
+      },
+      {
+        "utterance": "My brother Arjun is visiting me next month.",
+        "n_gold": 1,
+        "recalled": 1,
+        "output": [
+          "The user's brother Arjun is visiting them next month."
+        ],
+        "spurious": 0,
+        "ms": 187
+      },
+      {
+        "utterance": "I'm studying electrical engineering at university.",
+        "n_gold": 1,
+        "recalled": 1,
+        "output": [
+          "The user is studying electrical engineering at university."
+        ],
+        "spurious": 0,
+        "ms": 150
+      },
+      {
+        "utterance": "I wake up at five every morning to go running.",
+        "n_gold": 1,
+        "recalled": 0,
+        "output": [],
+        "spurious": 0,
+        "ms": 60
+      },
+      {
+        "utterance": "My favorite programming language is Rust.",
+        "n_gold": 1,
+        "recalled": 0,
+        "output": [],
+        "spurious": 0,
+        "ms": 61
+      },
+      {
+        "utterance": "I just started a new job at a bank.",
+        "n_gold": 1,
+        "recalled": 0,
+        "output": [],
+        "spurious": 0,
+        "ms": 55
+      },
+      {
+        "utterance": "I'm a teacher and I love hiking.",
+        "n_gold": 2,
+        "recalled": 1,
+        "output": [
+          "The user is a teacher."
+        ],
+        "spurious": 0,
+        "ms": 114
+      }
+    ],
+    "negative_rows": [
+      {
+        "utterance": "What time is it?",
+        "output": [],
+        "false_positive": false,
+        "ms": 57
+      },
+      {
+        "utterance": "Can you recommend a good pizza place?",
+        "output": [],
+        "false_positive": false,
+        "ms": 60
+      },
+      {
+        "utterance": "Thanks, that helps.",
+        "output": [],
+        "false_positive": false,
+        "ms": 56
+      },
+      {
+        "utterance": "Tell me a joke.",
+        "output": [],
+        "false_positive": false,
+        "ms": 56
+      },
+      {
+        "utterance": "What's the capital of France?",
+        "output": [],
+        "false_positive": false,
+        "ms": 56
+      },
+      {
+        "utterance": "How do magnets work?",
+        "output": [],
+        "false_positive": false,
+        "ms": 58
+      },
+      {
+        "utterance": "Okay, sounds good.",
+        "output": [],
+        "false_positive": false,
+        "ms": 55
+      },
+      {
+        "utterance": "Can you speak a bit louder?",
+        "output": [],
+        "false_positive": false,
+        "ms": 55
+      }
+    ]
+  }
+]

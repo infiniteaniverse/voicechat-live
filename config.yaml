@@ -1,0 +1,109 @@
+# VoiceChat Configuration
+# All runtime parameters live here — no hardcoded values in pipeline code.
+
+# ─── Audio ────────────────────────────────────────────────────────────────────
+audio:
+  sample_rate: 16000          # Hz — faster-whisper expects 16kHz
+  channels: 1
+  chunk_size: 1024            # frames per buffer (PyAudio)
+  input_device_index: null    # null = system default mic
+  output_device_index: null   # null = system default speaker
+
+# ─── VAD ──────────────────────────────────────────────────────────────────────
+vad:
+  threshold: 0.5              # Silero VAD confidence threshold (0.0–1.0)
+  min_speech_duration_ms: 250 # ignore speech shorter than this (filters clicks)
+  min_silence_duration_ms: 700 # silence this long = end of user turn
+  window_size_samples: 512    # Silero VAD window size
+
+# ─── STT ──────────────────────────────────────────────────────────────────────
+stt:
+  model_size: "small"          # faster-whisper: tiny/base/small/medium
+  compute_type: "int8"        # int8 = fastest CPU inference
+  language: "en"
+  beam_size: 1                # lower = faster, slightly less accurate
+  device: "cuda"               # "cpu" or "cuda"
+
+# ─── LLM ──────────────────────────────────────────────────────────────────────
+llm:
+  model: "qwen2.5:3b"         # Ollama model tag — pull this first
+  # fallback: "phi3.5:mini"   # smaller model if qwen is too slow on hardware
+  base_url: "http://localhost:11434"
+  temperature: 0.7
+  max_tokens: 256             # keep responses short for latency
+  stream: true                # must be true for overlapped TTS
+  keep_alive: "30m"           # override Ollama's 5-min default idle-unload — a paused demo/
+                               # grading session shouldn't hit a ~36s cold reload (see docs/tradeoffs.md)
+
+# ─── Memory ───────────────────────────────────────────────────────────────────
+memory:
+  short_term:
+    max_turns: 10             # rolling window of last N conversation turns
+  long_term:
+    store_path: "data/memory/faiss_index"
+    facts_db_path: "data/memory/facts.sqlite"
+    embedding_model: "sentence-transformers/all-MiniLM-L6-v2"
+    top_k: 3                  # how many facts to retrieve per query
+    similarity_threshold: 0.15 # minimum cosine similarity to include a fact
+    # Was 0.6, recalibrated in Part 3 testing. Facts are stored in third person
+    # ("The user works as...") but real queries are first person ("what's my job?"),
+    # and all-MiniLM-L6-v2 scores that pairing much lower than surface similarity
+    # would suggest — genuine first-person-query matches measured ~0.21-0.39, while
+    # unrelated first-person queries measured ~0.0-0.09 against the same fact. 0.15
+    # sits in the gap between those two clusters with margin on both sides. See
+    # docs/tradeoffs.md for the full measurements.
+
+# ─── TTS ──────────────────────────────────────────────────────────────────────
+tts:
+  engine: "kokoro"            # "kokoro" or "piper"
+  kokoro:
+    voice: "af_heart"         # Kokoro voice preset
+    speed: 1.0
+  piper:
+    model_path: "data/models/piper/en_US-lessac-medium.onnx"
+    config_path: "data/models/piper/en_US-lessac-medium.onnx.json"
+
+# ─── Guardrails ───────────────────────────────────────────────────────────────
+guardrails:
+  enabled: true
+  config_path: "guardrails/config.yml"
+  check_input: true
+  check_output: true
+  check_dialogue: false       # false = skip dialogue rails (latency budget)
+
+# ─── Fallback ─────────────────────────────────────────────────────────────────
+fallback:
+  llm_first_token_timeout_ms: 800   # trigger filler phrase if LLM hasn't responded by this
+  filler_phrases:
+    - "Let me think about that for a moment..."
+    - "That's a good question, give me just a second..."
+    - "Hmm, let me work through that..."
+    - "One moment while I put that together..."
+    - "Sure, just a brief pause while I think..."
+
+# ─── Pipeline ─────────────────────────────────────────────────────────────────
+pipeline:
+  prewarm_llm: true           # send dummy prompt at startup to avoid cold-start
+  prewarm_prompt: "Hello"
+  sentence_queue_maxsize: 3   # bounded producer-consumer queue between LLM token
+                               # generation and TTS synthesis+playback in
+                               # _stream_and_speak() — once full, the producer's
+                               # queue.put() blocks until the consumer (guardrail
+                               # check + synthesis + real-time playback) frees a
+                               # slot, so a fast LLM can't run unboundedly ahead
+                               # of slow-to-speak audio. Rarely engages in normal
+                               # short (1-3 sentence) responses; see docs/tradeoffs.md.
+
+# ─── Logging ──────────────────────────────────────────────────────────────────
+logging:
+  level: "INFO"               # DEBUG for development, INFO for demo
+  log_latency: true           # print per-stage timing to console
+  log_file: null              # null = console only
+
+# ─── Web Demo (Part 8, stretch) ────────────────────────────────────────────────
+web:
+  host: "127.0.0.1"           # localhost only — single-user demo, no need for 0.0.0.0
+  port: 8000
+  static_dir: "demo/web/static"
+  mic_frame_ms: 32            # ms of audio batched per outbound binary WS frame from the browser
+  max_concurrent_sessions: 1  # reject a 2nd simultaneous WS connection rather than corrupt shared VAD/memory state
